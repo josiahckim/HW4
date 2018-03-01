@@ -7,7 +7,9 @@ class Person:
 
     def isEmployee(self):
         return False
-class Employee(Person):
+        
+        
+class Manager(Person):
     def __init__(self, name, eid):
         Person.__init__(self, name)
         self.empID = eid
