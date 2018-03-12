@@ -1,21 +1,55 @@
 class Person:
-    def __init__(self, name):
-        self.name = name
+	def __init__(self, name, age, eid):
+		self.name = name
+		self.age = age
+		self.eid = eid
+		self.debt = 0
 
-    def getName(self):
-        return self.name
+	def deposit(self, account, amount):
+		if(hasAccount):
+			Account.deposit(amount)
+		else:
+			print("You do not have access to this account")	
 
-    def isEmployee(self):
-        return False
+	def withdraw(self, account, amount):
+		if(hasAccount):
+			Account.withdraw(amount)
+		else:
+			print("You do not have access to this account")	
+
+	def transfer(self, account_1, account_2, amount):
+		if(hasAccount): #If they own account 1
+			Account.transfer(amount)
+		else:
+			print("You do not have access to this account")	
+
+	def view_balance(self, account):
+		if(hasAccount): #If they own account 1
+			Account.view_account_balance(account)
+		else:
+			print("You do not have access to this account")	
+
+	def delete_account(self, account):
+		if(hasAccount): #If they own account 1
+			Account.delete()
+		else:
+			print("You do not have access to this account")			
+
+	def request_loan(self, amount):
+		self.debt = amount
+
+	def pay_loan(self, amount):
+		self.debt -= amount
+
+	def list_accounts(self):
+		print("")#print the accounts that the person has	
+
+	def get_name(self):
+		return self.name
         
         
-class Manager(Person):
-    def __init__(self, name, eid):
-        Person.__init__(self, name)
-        self.empID = eid
-
-    def isEmployee(self):
-        return True
-
-    def getID(self):
-        return self.empID
+        
+        
+        
+        
+   
