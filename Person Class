@@ -33,7 +33,10 @@ class Person:
 		if(hasAccount): #If they own account 1
 			Account.delete()
 		else:
-			print("You do not have access to this account")			
+			print("You do not have access to this account")
+			
+	def make_account(self, amount, account_name):
+		Account.__init__(amount, self.eid, account_name)
 
 	def request_loan(self, amount):
 		self.debt = amount
