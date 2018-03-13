@@ -3,7 +3,7 @@ class Account:
   __accountID = 0
   __holderID = 0
   
-  def __init__(self, balance, holderID, accountID, fees, account_min = 0):
+  def __init__(self, balance, holderID, accountID, fees = 0, account_min = 0):
     self.balance = balance
     self.holderID = holderID
     self.accountID = accountID
@@ -16,7 +16,7 @@ class Account:
   def getBalance(self):
     return self.balance
   
-  def makeDeposit(self, amount):
+  def makeDeposit(self, amount, personID):
     # checks the account holder against the accessor's ID
     if not(checkOwner(personID)):
       return
