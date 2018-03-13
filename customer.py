@@ -40,4 +40,9 @@ class Customer(Person):
   # parameters: amount - the amount being deposited, account - the index of the account in the customer's list of accounts
   # description of function: This funtion withdraws some amount of money from the account at index account.
   #   This is done by calling the 
-  
+
+  	def request_loan(self, amount):
+      self.debt = amount
+
+    def pay_loan(self, amount):
+      self.debt -= amount
