@@ -17,6 +17,9 @@ class Account:
     return self.balance
   
   def makeDeposit(self, amount):
+    # checks the account holder against the accessor's ID
+    if not(checkOwner(personID)):
+      return
     self.balance += amount
   
   def makeWithdrawal(self, amount, isATM, personID):
