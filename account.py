@@ -38,6 +38,6 @@ class Account:
         print("insufficient funds")
       self.balance -= amount
 
-  def checkOwner(self, personID):
+  def __checkOwner(self, personID):
     # checks if the person attempting to access the account is the account holder
     return self.holderID == personID
