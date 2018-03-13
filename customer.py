@@ -13,3 +13,9 @@ class Customer(Person):
     
     accountList.append(Account.__init__(initBalance, self.eid, str(self.eid) + "." + str(accountCount), fee, accnt_min))
     
+  	def request_loan(self, amount):
+		  self.debt = amount
+
+	  def pay_loan(self, amount):
+		  self.debt -= amount
+    
