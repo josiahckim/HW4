@@ -1,12 +1,10 @@
 class Account:
-  __balance = 0
-  __accountID = 0
-  __holderID = 0
   
-  def __init__(self, balance, holderID, accountID, fees = 0, account_min = 0):
-    self.balance = balance
-    self.holderID = holderID
-    self.accountID = accountID
+  def __init__(self, balance, holderID, accountID, holderName, fees = 0, account_min = 0):
+    self.__balance = balance
+    self.__holderID = holderID
+    self.__accountID = accountID
+    self.__holderName = holderName
     # in case the user enters an invalid minimum account value
     if account_min < 0:
       account_min = 0
@@ -80,3 +78,11 @@ class Account:
   
     # checks if the person attempting to access the account is the account holder
     return self.holderID == personID
+  
+  def __str__(self):
+  # function name: the magic function str
+  #
+  # parameters: none
+  # description of function: converts the Account object to a readable string.
+  
+    return "Account ID: ", self.accountID, "\Holder Name:", self.holderName, "\n\tBalance:", self.balance
