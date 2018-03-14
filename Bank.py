@@ -196,8 +196,30 @@ class Customer(Person):
 	
 		print("Name:", self.name, "\tAge:", self.age, "\tRole: Customer", "\nAccounts:")
 		self.printAccountList()
-	
-  	
+		
+  def get_loan(self):
+  # function name: get_loan
+  #
+  # paramters: none
+  # description of function: This function allows the customer to recieve a loan with a fixed, non-compounding interest rate.
+    loan_request = float(input("Based on your balance, you can borrow any amount you want with an 8% interest rate. \nEnter the amount you wish to borrow:     
+    self.debt += loan_request + (loan_request*.08)				 
+    print("You are now ${} in debt".format(self.debt))
+															 
+			   
+  def pay_loan(self):
+  # function name: pay_loan
+  #
+  # paramters: none
+  # description of function: This function allows the customer to pay a loan with their balance.
+		account = input("Enter the account you want to make a payment from: ")
+    balance = self.balance(self, account)
+    pay = float(input("You are ${} in debt and your balance is ${}. \nEnter the amount you would like to pay: ".format(self.debt, balance)))
+    while pay > balance and pay < 0:
+        pay = float(input("You cannot make that payment. \nEnter a different amount: ")
+    self.debt -= pay
+    withdraw(self, pay, False, account)
+    print("You are now ${} in debt and your balance is ${}.".format(self.debt, self.getBalance(self, account))) 	
 
 
 
