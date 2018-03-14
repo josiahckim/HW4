@@ -1,22 +1,26 @@
-from Person Class.py import Person
-from Account.py import Account
-
 class Assistant(Person):
-    def __init__(self, name, age, eid):
-    	Person.__init__(self, name, age)
-    	self.eid = eid  
-
-    def isEmployee(self):
-        return True  
+    def __init__(self, name, age):
+    	Person.__init__(self, name, age)    	
 
     def view_balance(self, account):
     	Person.view_balance(self, account):
 
-    def make_account(self, amount, account_name):
-    	Person.make_account(self, amount, account_name)
+    def getBalance(customer_name):
+        Account.getBalance()
 
-    def get_name(self):
-    	Person.get_name(self)
+    def delete_account(self, account_name):
+        print("You do not have the authority to delete this account.")
 
-### Add specific functions only accesible by an Assistant (EMCAPSULATE)
+    def list_account(customer_name):
+        #function name: list_account
+        #
+        #parameter: 
+        #
+        #c is referring to customer object
+        c = customer_name
+        accountlst = c.getAccountList()
+        #print(accountlst[0].getBalance())
+        for x in accountlst:
+            ## format from Ben
+        
 
