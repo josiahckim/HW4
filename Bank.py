@@ -6,6 +6,9 @@ class Person:
 
 	def __init__(self, name, age):
 		self.name = name
+		# if an invalid age is entered, we will asume the person is an infant
+		if age < 0:
+			age = 0
 		self.age = age
 		self.eid = str(Person.current_eid) + str(random.randint(100, 500))
 		self.debt = 0
@@ -16,30 +19,24 @@ class Person:
 		if(hasAccount(account_name)): #If they own account
 			account.delete()
 		else:
-			print("You do not have access to this account")			
-
-
-	#def list_accounts(self, c):
-	#	for x in c.getAccountLists()
-	#		print(x + " ")#print the accounts that the person has	
-
-
-
+			print("You do not have access to this account")
+			
+	def displaySelf(self):
+	# function name: displaySelf
+	#
+	# parameters: none
+	# description of function: Displays the basic information about the person.
+		print("Name:", self.name, "\tAge:", self.age)
 
 	def get_name(self):
 		return self.name
-
-'''	def view_balance(self, account):
-		if(hasAccount): #If they own account 1
-			Account.view_account_balance(account)
-		else:
-			print("You do not have access to this account")	'''
 
 
 
 class Assistant(Person):
     def __init__(self, name, age):
     	Person.__init__(self, name, age)
+			Manager.employeeList.append(self)
 
 
     def isEmployee(self):
@@ -50,53 +47,86 @@ class Assistant(Person):
 
     def make_account(self, amount, account_name):
     	Person.make_account(self, amount, account_name)
-
-    def get_name(self):
-    	Person.get_name(self)
-
-### Add specific functions only accesible by an Assistant (EMCAPSULATE)
+	
+	def displaySelf(self):
+	# function name: displaySelf
+	#
+	# parameters: none
+	# description of function: Prints information about this assistant.
+		print("Name:", self.name, "\tAge:", self.age, "\tRole: Assistant")
 
 
 
 
 
 class Manager(Person):
-    def __init__(self, name, age):
-        Person.__init__(self, name, age)
+	employeeList = []
+	
+  def __init__(self, name, age):
+    Person.__init__(self, name, age)
 
-    def viewCustomer(custom):
+  def viewCustomer(custom):
+		custom.displaySelf()
+	
+	def displaySelf(self):
+	# function name: displaySelf
+	#
+	# parameters: none
+	# description of function: Prints information about this manager.
+		print("Name:", self.name, "\tAge:", self.age, "\tRole: Manager")
 
 
-    def deleteAccount():
+  def deleteAccount():
 
 
 
 
 
 class Teller(Person):
-    def __init__(self, name, age):
-    	Person.__init__(self, name, age)  
+	def __init__(self, name, age):
+		Person.__init__(self, name, age)  
 
-    def isEmployee(self):
-        return True  
+  def isEmployee(self):
+    return True  
 
-    def view_balance(self, account):
-    	Person.view_balance(self, account)
+  def view_balance(self, account):
+    Person.view_balance(self, account)
 
-    def get_name(self):
-    	Person.get_name(self)
+	def get_name(self):
+    Person.get_name(self)
 
-
+	def displaySelf(self):
+	# function name: displaySelf
+	#
+	# parameters: none
+	# description of function: Prints information about this teller.
+		print("Name:", self.name, "\tAge:", self.age, "\tRole: Teller")
+	
+	def makeTransfer(customer1, customer2, account1, account2, amount):
+	# function name: makeTransfer
+	#
+	# parameters: customer1 - the customer funds are being transfered from, customer2 - the customer funds are being tranfered to,
+	# 	account1 - the name of the account funds are being transfered from, account2 - the name of the account funds are being
+	# 	transfered to, amount - the amount of money to be transfered
+	# description of function: Transfer funds from customer1's account1 to customer2's account2. The amount to be transfered is given
+	# 	by amount
+	
+		if customer1.balance(account1) < amount:
+			print("insufficient funds in account:", account1)
+		
+		# ATM will be set to False here because the transfer is done by the teller, i.e. in the bank
+		customer1.withdraw(account1, False, amount)
+		customer2.deposit(account2, amount)
 
 
 
 
 
 class Customer(Person):
-
   def __init__(self, name, age):
     Person.__init__(self, name, age)
     self.__accountList = []
+		self.__accountNames = []
     self.accountNum = 1
   
   def getAccountList(self):
@@ -104,11 +134,18 @@ class Customer(Person):
   #
   # parameters: none
   # description of function: This function returns the values within the encapsulated variable accountList
-    return self.__accountList
+    return self.__accountNames
 
   def printAccountList(self):
+	# function name: printAccountList
+	#
+	# parameters: none
+	# description of function: This function prints out a formated list of all accounts held by the customer.
+	
+	i = 1
   	for account in self.__accountList:
-  		print(account)
+  		print("Account", str(i), account)
+		i += 1
   
   def makeAccount(self, initBalance, fee = 0, accnt_min = 0):
   # function name: makeAccount
@@ -123,39 +160,50 @@ class Customer(Person):
       return
     
     self.__accountList.append(Account(initBalance, self.eid, str(self.eid) + "." + str(self.accountNum), self.name, fee, accnt_min))
+		self.__accountNames.append(str(self.eid) + "." + str(self.accountNum))
     self.accountNum +=1
+		Account.listOfAccounts.append(self.__accountList[-1])
     
   def deposit(self, amount, account):
   # function name: deposit
   #
   # parameters: amount - the amount being deposited (a float), account - the index of the account in the customer's list of accounts
   # description of function: This function deposits some money into the account being referenced.
-    self.__accountList[account].makeDeposit(amount, self.eid)
+    self.__accountList[self.__accountNames.indexOf(account)].makeDeposit(amount, self.eid)
   
-  #def withdraw(self, amount, account):
+  def withdraw(self, amount, ATM, account):
   # function name: withdraw
   #
-  # parameters: amount - the amount being deposited, account - the index of the account in the customer's list of accounts
-  # description of function: This funtion withdraws some amount of money from the account at index account.
-  #   This is done by calling the 
+  # parameters: amount - the amount being deposited, account - the index of the account in the customer's list of accounts, 
+  #   ATM - a boolean variable that is true if the transaction is occuring at an ATM.
+  # description of function: This function withdraws some amount of money from the account at index account.
+  #   This is done by calling the makeWithdrawal function for the referenced account.
+    self.__accountList[self.__accountNames.indexOf(account)].makeWithdrawal(amount, ATM, self.eid)
+	
+	def balance(self, account):
+	# function name: balance
+	#
+	# parameters: account - the name of the account funds will be withdrawn from
+	# description of function: This function returns the balance of an account held by the customer.
+	
+		return self.__accountList[self.__accountNames.indexOf(account)].getBalance()
 
-  def displayCustomer(self):
-  # function name: 
+  def displaySelf(self):
+  # function name: displayCustomer
   #
-  # paramters: 
-  # description of function: 
+  # paramters: none
+  # description of function: This function displays information about the customer.
+	
+		print("Name:", self.name, "\tAge:", self.age, "\tRole: Customer", "\nAccounts:")
+		self.printAccountList()
+	
   	
 
 
 
-
-
-
-
-
 class Account:
-
-  
+	listOfAccounts = []
+	
   def __init__(self, balance, holderID, accountID, holderName, fees = 0, account_min = 0):
     self.__balance = float(balance)
     self.__holderID = holderID
@@ -165,7 +213,19 @@ class Account:
     if account_min < 0:
       account_min = 0
     self.account_min = account_min
+		if fees < 0:
+			fees = 0
     self.fees = fees
+	
+	def displayAccounts():
+	# function name: displayAccounts
+	#
+	# parameters: none
+	# description of function: Prints a formatted list of all accounts
+	
+		i = 1
+		for account in Account.listOfAccounts:
+			print("Account", str(i) + ":", str(account))
 
   def getBalance(self):
   # function name: getBalance
@@ -187,6 +247,13 @@ class Account:
   # parameters: none
   # description of function: Returns the value of the encapsulated variable holderID for the current object being referenced.
     return self.__holderID
+	
+	def getHolderName(self):
+	# function name: getHolderName
+	#
+	# parameters: none
+	# description of function: Returns the name of the account holder
+		return self.__holderName
   
   def makeDeposit(self, amount, personID):
   # function name: makeDeposit
@@ -236,7 +303,10 @@ class Account:
     return self.__holderID == personID
 
   def __str__(self):
-
+	# function name: __str__
+	#
+	# parameters: none
+	# description of function: This function returns the account information formated as a string.
   	return "Account ID:" + self.__accountID + "\tHolderName:" + self.__holderName + "\n\tBalance:" + str(self.__balance)
 
 
